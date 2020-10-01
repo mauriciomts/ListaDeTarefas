@@ -33,6 +33,17 @@ namespace ListaDeTarefas.Controllers
             return View(await _contexto.Tarefas.ToPagedListAsync(numeroPagina, itensPorPagina));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Index(string txtProcurar)
+        {
+            if (!String.IsNullOrEmpty(txtProcurar))
+            {
+                return View(await _contexto.Tarefas.Where(x => x.Nome.ToUpper().Contains(txtProcurar.ToUpper())).ToListAsync());
+
+            }
+
+            return View(await _contexto.Tarefas.ToListAsync());
+        }
         
         // GET: Tarefas/Create
         public IActionResult Create()
