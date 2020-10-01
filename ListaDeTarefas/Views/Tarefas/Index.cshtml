@@ -82,6 +82,11 @@ else @if (TempData["Exclusao"] != null)
         <div class="col-md-8">
             @Html.PagedListPager(Model, pagina => Url.Action("Index", new { pagina }))
         </div>
+        <div class="col-md-4">
+            <span class="pull-right">
+                Listando registros de @Model.FirstItemOnPage a @Model.LastItemOnPage de um total de @Model.TotalItemCount
+            </span>
+        </div>
     </div>
     </div>
 </div>
