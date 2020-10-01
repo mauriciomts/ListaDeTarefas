@@ -11,21 +11,21 @@ namespace ListaDeTarefas.Models
     {
         public int TarefaId { get; set; }
 
-        [Required(ErrorMessage = "Campo Obrigatório")]
+        [Required(ErrorMessage = "Campo {0} Obrigatório")]
         [StringLength(100, ErrorMessage = "Use menos caracteres")]
         [Remote("TarefaExiste", "Tarefas", AdditionalFields = "TarefaId")]
         public string Nome { get; set; }
 
-        [Required(ErrorMessage = "Campo Obrigatório")]
+        [Required(ErrorMessage = "Campo {0} Obrigatório")]
         [StringLength(100, ErrorMessage = "Use menos caracteres")]
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
 
-        [Required(ErrorMessage = "Campo Obrigatório")]
+        [Required(ErrorMessage = "Campo Data {0} Obrigatório")]
         [Display(Name = "Início")]
         public DateTime Inicio { get; set; }
 
-        [Required(ErrorMessage = "Campo Obrigatório")]
+        [Required(ErrorMessage = "Campo Data {0} Obrigatório")]
         public DateTime Fim { get; set; }
 
         

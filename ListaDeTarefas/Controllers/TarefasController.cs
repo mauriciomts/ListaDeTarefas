@@ -8,24 +8,29 @@ using Microsoft.EntityFrameworkCore;
 using ListaDeTarefas.Data;
 using ListaDeTarefas.Models;
 using ListaDeTarefas.AcessoDados.Interfaces;
+using X.PagedList;
 
 namespace ListaDeTarefas.Controllers
 {
     public class TarefasController : Controller
     {
+        private readonly Contexto _contexto;
         private readonly ITarefaRepositorio _tarefaRepositorio;
         private readonly IImportanciaRepositorio _importanciaRepositorio;
 
-        public TarefasController(ITarefaRepositorio tarefaRepositorio, IImportanciaRepositorio importanciaRepositorio)
+        public TarefasController(Contexto contexto, ITarefaRepositorio tarefaRepositorio, IImportanciaRepositorio importanciaRepositorio)
         {
             _tarefaRepositorio = tarefaRepositorio;
             _importanciaRepositorio = importanciaRepositorio;
+            _contexto = contexto;
         }
 
         // GET: Tarefas
-        public async Task<IActionResult> Index()
-        {            
-            return View(await _tarefaRepositorio.PegarTodos());
+        public async Task<IActionResult> Index(int? pagina)
+        {
+            const int itensPorPagina = 5;
+            int numeroPagina = (pagina ?? 1);
+            return View(await _contexto.Tarefas.ToPagedListAsync(numeroPagina, itensPorPagina));
         }
 
         
