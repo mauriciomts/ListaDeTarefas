@@ -34,15 +34,18 @@ namespace ListaDeTarefas.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(string txtProcurar)
+        public async Task<IActionResult> Index(string txtProcurar, int? pagina)
         {
+            const int itensPorPagina = 5;
+            int numeroPagina = (pagina ?? 1);
+
             if (!String.IsNullOrEmpty(txtProcurar))
             {
-                return View(await _contexto.Tarefas.Where(x => x.Nome.ToUpper().Contains(txtProcurar.ToUpper())).ToListAsync());
+                return View(await _contexto.Tarefas.Where(x => x.Nome.ToUpper().Contains(txtProcurar.ToUpper())).ToPagedListAsync(numeroPagina, itensPorPagina));
 
             }
 
-            return View(await _contexto.Tarefas.ToListAsync());
+            return View(await _contexto.Tarefas.ToPagedListAsync(numeroPagina, itensPorPagina));
         }
         
         // GET: Tarefas/Create
