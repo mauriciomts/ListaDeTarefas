@@ -1,10 +1,12 @@
 ﻿@model X.PagedList.IPagedList<ListaDeTarefas.Models.Tarefa>
 @using X.PagedList.Mvc.Core
- 
+@using X.PagedList.Web.Common
+
+
 
 @{
     ViewData["Title"] = "Lista das Tarefas";
-  
+
 }
 
 
@@ -26,70 +28,75 @@
 }
 
 else @if (TempData["Exclusao"] != null)
-       {
-        <h6 class="alert alert-danger">@TempData["Exclusao"]</h6>
-    }
+   {
+    <h6 class="alert alert-danger">@TempData["Exclusao"]</h6>
+}
 
-    <table class="table table-striped table-hover">
-        <thead class="thead-light">
+<table class="table table-striped table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Nome)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Descricao)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Inicio)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Fim)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Importancia)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
             <tr>
-                <th scope="col">
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Nome)
-                </th>
-                <th scope="col">
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Descricao)
-                </th>
-                <th scope="col">
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Inicio)
-                </th>
-                <th scope="col">
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Fim)
-                </th>
-                <th scope="col">
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Importancia)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nome)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Descricao)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Inicio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Fim)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Importancia.Nome)
-                    </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Inicio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fim)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Importancia.Nome)
+                </td>
 
-                    <td>
-                        <a asp-action="Edit" asp-controller="Tarefas" asp-route-id="@item.TarefaId" title="Editar Tarefa" class="btn btn-outline-info">Editar</a>
-                        <a onclick="ExibirModal(@item.TarefaId, '@item.Nome')" title="Excluir Tarefa" class="btn btn-outline-danger">Excluir</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <div class="row">
-        <div class="col-md-8">
-            @Html.PagedListPager(Model, pagina => Url.Action("Index", new { pagina }))
-        </div>
-        <div class="col-md-4">
-            <span class="pull-right">
-                Listando registros de @Model.FirstItemOnPage a @Model.LastItemOnPage de um total de @Model.TotalItemCount
-            </span>
-        </div>
+                <td>
+                    <a asp-action="Edit" asp-controller="Tarefas" asp-route-id="@item.TarefaId" title="Editar Tarefa" class="btn btn-outline-info">Editar</a>
+                    <a onclick="ExibirModal(@item.TarefaId, '@item.Nome')" title="Excluir Tarefa" class="btn btn-outline-danger">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-8">
+        @Html.PagedListPager(Model, pagina => Url.Action("Index", new { pagina }), new PagedListRenderOptionsBase
+        {
+           LiElementClasses = new string[] { "page-item" },
+           PageClasses = new string[] { "page-link" }
+        })
     </div>
+    <div class="col-md-4">
+        <span class="pull-right">
+            Listando registros de @Model.FirstItemOnPage a @Model.LastItemOnPage de um total de @Model.TotalItemCount
+        </span>
     </div>
+</div>
+</div>
 </div>
 
 
